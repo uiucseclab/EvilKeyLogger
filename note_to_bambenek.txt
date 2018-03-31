@@ -1,0 +1,1 @@
+My project is a keylogger that will parse its log files for internet profile credentials and send them over the network to a different computer. So far, I have basic logging functionality and some of the text parsing done. Beyond the text parsing, I need to figure out how to send the files over a network to a different machine, ideally in a discreet manner.
