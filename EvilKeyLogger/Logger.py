@@ -12,6 +12,7 @@ class Logger:
             # TODO: close the file
             self.num_times_enter_pressed+=1
             if(self.num_times_enter_pressed == 2):
+                logging.info(str(key))
                 return False
         logging.info(str(key))
 	
