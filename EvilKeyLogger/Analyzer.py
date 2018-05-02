@@ -10,14 +10,15 @@ class Analyzer:
         self.fb_creds = ''
     
     def parse_log_file(self):
+        log_fd = open(self.log_file, 'r')
         self.will_not_parse = self.got_fb_creds # AND *_cred vars
         if self.will_not_parse:
             self.cred_file.close()
             return self.will_not_parse
         else:
-            fd = open(self.log_file, 'r')
+            #log_fd = open(self.log_file, 'r')
             if(not self.got_fb_creds):
-                for msg in fd:
+                for msg in log_fd:
                     if(('Facebook' in msg) and ('Log In' in msg)):
                         if('Key'not in msg):
                             self.fb_creds += msg[1]
@@ -28,5 +29,6 @@ class Analyzer:
                     else:
                         continue
         self.will_not_parse = self.got_fb_creds # AND *_cred vars
-        fd.close()
+        log_fd.close()
+        self.cred_file.close()
         return self.will_not_parse
