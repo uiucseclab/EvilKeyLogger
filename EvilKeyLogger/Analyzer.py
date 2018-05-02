@@ -2,6 +2,7 @@ class Analyzer:
     def __init__(self, log_file, cred_file):
         # arguments
         self.log_file = log_file
+        self.cred_file_name = cred_file
         self.cred_file = open(cred_file, 'a')
         
         # other properties
@@ -10,6 +11,7 @@ class Analyzer:
         self.fb_creds = ''
     
     def parse_log_file(self):
+        self.cred_file = open(self.cred_file_name, 'a')
         log_fd = open(self.log_file, 'r')
         self.will_not_parse = self.got_fb_creds # AND *_cred vars
         if self.will_not_parse:

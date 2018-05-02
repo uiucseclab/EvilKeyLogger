@@ -10,7 +10,10 @@ cred_file = 'C:\\Users\\Benjamin Pollak\\Desktop\\totally_not_credentials.txt'
 
 class Logger:
     def __init__(self, log_file, cred_file):
+        f = open(log_file, 'w'); f.close() # file creation
         self.log_file = log_file
+        
+        f = open(cred_file, 'w'); f.close() # file creation
         self.cred_file = cred_file
         logging.basicConfig(filename=(log_file), level=logging.DEBUG,
                             format=( '%(message)s : '))
