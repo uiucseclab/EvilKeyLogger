@@ -3,5 +3,6 @@ venv
 pyvenv.cfg
 */__pycache__
 EvilKeyLogger/build
+EvilKeyLogger/dist
 
 # vim
