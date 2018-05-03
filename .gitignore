@@ -2,9 +2,6 @@
 venv
 pyvenv.cfg
 */__pycache__
-
-# PyInstaller
-*.spec
-dist/
+EvilKeyLogger/build
 
 # vim

