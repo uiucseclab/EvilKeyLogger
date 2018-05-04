@@ -37,6 +37,7 @@ WEAKNESSES
 5. Cannot parse backspaces.
 6. Script won't restart if computer is turned off without user interaction.
 7. Does not obfuscate iteslf.
+8. Biggest weakness of all: I was not able to integrate my evilChrome.jpg into the program.
 
 FUTURE WORK:
 8. I would like to explore getting more credentials (Google, Twitter, etc).
