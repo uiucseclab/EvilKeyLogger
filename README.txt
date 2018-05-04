@@ -22,7 +22,7 @@ COMPILING THE CODE:
 4. Change the values on line 41 of main.py to their respective values.
 5. Create a virtual environment with virtualenv and activate it.
 6. Run `pip install -r requirements.txt`.
-7. Run `python setup.py bdist_msi`.
+7. Run `python setup.py build`.
 8.
 
 SEEING THAT IT WORKS:
